@@ -7,7 +7,8 @@
 
 body {
   background: url(../src/img/4882066.jpg); 
-  background-repeat: no-repeat;
+  background-repeat: repeat;
+  background-size: cover;
 }
 
 .container {
@@ -117,7 +118,7 @@ input[type="number"]:focus {
   height: 80px;
 }
 
-.sum {
+#sum {
   display: flex;
   width: 30%;
   padding: 5px;
@@ -152,6 +153,7 @@ input[type="number"]:focus {
   background: white;
   outline: none;
   border: none;
+  margin-left: 10px;
 } 
 
 .block-imgs button img {
@@ -168,3 +170,32 @@ input[type="number"]:focus {
   color: #fefeff;
   font-weight: 700;
 }
+
+#size {
+  font-size: 20px;
+}
+
+.inputEdite {
+  width: 200px;
+  padding: 5px;
+  padding-left: 10px;
+  font-size: 20px;
+  border-radius: 100px;
+  outline: none;
+}
+
+#info-price {
+  cursor: pointer;
+}
+
+#content-page {
+  max-height: 700px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
+#content-page::-webkit-scrollbar { 
+  width: 0; 
+}
+

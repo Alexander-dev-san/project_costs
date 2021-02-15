@@ -7,64 +7,65 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="animation.css">
 </head>
 <body>
 
-    <section class="main">
-      <div class="container">
+  <section class="main">
+    <div class="container">
 
-        <div class="header">
-          <div class="header-imgs">
-            <img src="../src/img/main-line.png" alt="line">
-            <img src="../src/img/main-line.png" alt="line">
+      <div class="header">
+        <div class="header-imgs">
+          <img src="../src/img/main-line.png" alt="line">
+          <img src="../src/img/main-line.png" alt="line">
+        </div>
+        <div class="header-text">
+          <span>Мои расходы</span>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <div class="content-info">
+          <div class="content-info_shop">
+            <span>Куда было потрачено</span>
+            <input type="text" id='info-shop' class="content-info_shop-input" maxlength="30">
           </div>
-          <div class="header-text">
-            <span>Мои расходы</span>
+          <div class="content-info_shop">
+            <span>Сколько потрачено</span>
+            <input type="range" min="1" max="10000" step="1" oninput="sizeCost()" autocomplete="off" id='info-price' class="content-info_shop-input" maxlength="10">
+            <p id="size">5000р</p>
+          </div>
+          <div class="content-info_add">
+            <button type="button"><img src="img/plus.svg" onclick="onClickAdd()"/></button>
           </div>
         </div>
+        
+        <div id="sum"></div>
 
-        <div class="content">
-
-          <div class="content-info">
-            <div class="content-info_shop">
-              <span>Куда было потрачено</span>
-              <input type="text" id='info-shop' class="content-info_shop-input" maxlength="40">
+        <div id="content-page">
+          <!-- <div class="content-page_block">
+            <div class="block-shopNum">
+              <span>1</span>
+              <p>ПОКУПКА</p>
             </div>
-            <div class="content-info_shop">
-              <span>Сколько потрачено</span>
-              <input type="number" id='info-price' class="content-info_shop-input" max="10">
+            <div class="block-text">
+              <p class="block-text_name">Магазин: <span>Мой магаз</span></p>
+              <p class="block-text_date">Дата: <span>12.02.2021</span></p> 
             </div>
-            <div class="content-info_add">
-              <button type="button"><img src="img/plus.svg" onclick="onClickAdd()"/></button>
+            <div class="block-price">
+              <p>700р</p>
             </div>
-          </div>
-          
-          <div class="sum"><span>Итого:</span></div>
+            <div class="block-imgs">
+                <button type="button"><img src="img/edit.svg" alt="edit"/></button>
+                <button type="button"><img src="img/delete.svg" alt="delete"/></button>
+            </div>
+          </div> -->
+        </div> 
+      </div>
 
-          <div id="content-page">
-            <!-- <div class="content-page_block">
-              <div class="block-shopNum">
-                <span>1</span>
-                <p>ПОКУПКА</p>
-              </div>
-              <div class="block-text">
-                <p class="block-text_name">Магазин: <span>Мой магаз</span></p>
-                <p class="block-text_date">Дата: <span>12.02.2021</span></p> 
-              </div>
-              <div class="block-price">
-                <p>700р</p>
-              </div>
-              <div class="block-imgs">
-                 <button type="button"><img src="img/edit.svg" alt="edit"/></button>
-                 <button type="button"><img src="img/delete.svg" alt="delete"/></button>
-              </div>
-            </div> -->
-          </div> 
-        </div>
-
-        </div>
-    </section>
+      </div>
+  </section>
   <!-- /.main -->
 </div>
 <script src="script.js"></script>
