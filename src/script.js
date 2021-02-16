@@ -1,18 +1,25 @@
-let allBuys = [];
+let allBuys = JSON.parse(localStorage.getItem('costs')) || [];
 let valueInputShop = '';
-let valueInputPrice = 5000;
+let valueInputPrice = 0;
 let valueNum = 0;
 let inputShop = null;
 let inputPrice = null;
 let sumValue = 0;
-let dateNow = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+let dateNow = new Date().toJSON().slice(0,10).replace(/-/g,'-');
+let chekEdite = false;
 
 window.onload = async function addElement() {
   inputShop = document.getElementById('info-shop');
   inputPrice = document.getElementById('info-price');
-
   inputShop.addEventListener('change', updateValueShop);
   inputPrice.addEventListener('change', updateValuePrice);
+
+  const resp = await fetch('http://localhost:8000/allCosts', {
+    method: 'GET'
+  });
+
+  let result = await resp.json();
+  allBuys = result.data ? result.data : [];
   render();
 }
 
@@ -29,20 +36,33 @@ function sizeCost() {
   textSize.innerText = `${size} р`;
 }
 
-function sizeCostEdite() {
-  let size = document.getElementById("shopPriceInputId").value;
-  let textSize = document.getElementById("sizeEdite");
-  textSize.innerText = `${size} р`;
-}
+onClickAdd = async () => {
+  if (valueInputShop) {
+    const resp = await fetch('http://localhost:8000/createCost', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json;charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        shopName: valueInputShop,
+        shopDate: dateNow,
+        shopPrice: valueInputPrice
+      })
+    });
 
-onClickAdd = () => {
-  allBuys.push({
-    shopName: valueInputShop,
-    shopDate: dateNow,
-    shopPrice: valueInputPrice
-  });
+    let result = await resp.json();
+    allBuys = result.data ? result.data : [];
 
-  render();
+    inputShop.value = '';
+    inputPrice.value = '';
+    valueInputShop = '';
+
+    render();
+
+  } else {
+    alert("Введите название Магазина!!!");
+  }
 }
 
 let render = () => {
@@ -54,16 +74,19 @@ let render = () => {
   while(blockSum.firstChild) {
     blockSum.removeChild(blockSum.firstChild);
   }
+
   const sumText = document.createElement('p');
-  sumValue = 0
+  sumValue = 0;
   allBuys.forEach((item, index) => {
     sumValue = sumValue + Number(item.shopPrice);
   });
-  sumText.innerText = `Итого: ${sumValue}`;
+  sumText.innerText = `Итого: ${sumValue} р`;
   sumText.className = 'animated rubberBand'
   blockSum.appendChild(sumText);
 
-  allBuys.map((item, index) => {
+  chekEdite = false;
+
+  allBuys.map( (item, index) => {
     const block = document.createElement('div');
     block.id = `tasks-${index}`;
     block.className = 'content-page_block animated bounce';
@@ -91,7 +114,8 @@ let render = () => {
     shopDate.className = 'block-text_date';
     shopDate.innerText = 'Дата: ';
     const shopDateVal = document.createElement('span');
-    shopDateVal.innerText = item.shopDate;
+    let dateText = new Date(Date.parse(item.shopDate));
+    shopDateVal.innerText = dateText.toLocaleDateString('ru-RU');
     shopDate.appendChild(shopDateVal);
     textBlock.appendChild(shopName);
     textBlock.appendChild(shopDate);
@@ -115,16 +139,25 @@ let render = () => {
     img1.alt = 'edit';
     buttonEdt.appendChild(img1);
     blockImg.appendChild(buttonEdt);
+    
     buttonEdt.onclick = () => {
-      onchange(item, index, shopName, shopDateVal, shopPrice, myShopName, buttonEdt, buttonDel);
-    };
+      if(chekEdite === false){
+        onchange(item, index, shopName, shopDateVal, shopPrice, myShopName, buttonEdt, buttonDel);
+        chekEdite = true
+      } else {
+        render();
+      }
+    }
+
     const buttonDel = document.createElement('button');
     const img2 = document.createElement('img');
     img2.src = 'img/delete.svg';
     img2.alt = 'edit';
+
     buttonDel.onclick = () => {
       onDeleteContainer(index);
     };
+
     buttonDel.appendChild(img2);
     blockImg.appendChild(buttonDel);
     block.appendChild(blockImg);
@@ -134,55 +167,82 @@ let render = () => {
 }
 
 onchange = (item, index, shopName, shopDateVal, shopPrice, myShopName, buttonEdt, buttonDel) => {
-  let shopNameInput = document.createElement(`input`);
-  let shopDateInput = document.createElement(`input`);
-  let shopPriceInput = document.createElement(`input`);
-  const btnSaveEdite = document.createElement('button');
-  const btnBackEdite = document.createElement('button');
-  let imgSaveEdite = document.createElement('img');
-  let imgBackEdite = document.createElement('img');
+  
+    let shopNameInput = document.createElement(`input`);
+    let shopDateInput = document.createElement(`input`);
+    let shopPriceInput = document.createElement(`input`);
+    const btnSaveEdite = document.createElement('button');
+    const btnBackEdite = document.createElement('button');
+    let imgSaveEdite = document.createElement('img');
+    let imgBackEdite = document.createElement('img');
 
-  imgSaveEdite.src = 'img/done.svg';
-  imgSaveEdite.alt = 'edit';
-  btnSaveEdite.appendChild(imgSaveEdite);
+    imgSaveEdite.src = 'img/done.svg';
+    imgSaveEdite.alt = 'edit';
+    btnSaveEdite.appendChild(imgSaveEdite);
 
-  imgBackEdite.src = 'img/shopping-cart.svg';
-  imgBackEdite.alt = 'editBack';
-  btnBackEdite.appendChild(imgBackEdite);
+    imgBackEdite.src = 'img/shopping-cart.svg';
+    imgBackEdite.alt = 'editBack';
+    btnBackEdite.appendChild(imgBackEdite);
 
-  shopNameInput.value = item.shopName;
-  shopDateInput.value = item.shopDate;
-  shopPriceInput.value = item.shopPrice;
+    shopNameInput.value = item.shopName;
+    shopDateInput.value = dateNow;
+    shopPriceInput.value = item.shopPrice;
 
-  shopNameInput.className = 'inputEdite';
-  shopDateInput.className = 'inputEdite';
-  shopPriceInput.className = 'inputEdite';
+    shopNameInput.className = 'inputEdite';
+    shopDateInput.className = 'inputEdite';
+    shopPriceInput.className = 'inputEdite';
 
-  shopNameInput.maxLength = '20';
-  shopDateInput.type = 'date'; 
-  shopPriceInput.type = 'number';
+    shopNameInput.maxLength = '20';
+    shopDateInput.type = 'date'; 
+    shopPriceInput.type = 'number';
 
-  myShopName.replaceWith(shopNameInput);
-  shopDateVal.replaceWith(shopDateInput);
-  shopPrice.replaceWith(shopPriceInput);
-  buttonEdt.replaceWith(btnSaveEdite);
-  buttonDel.replaceWith(btnBackEdite);
+    myShopName.replaceWith(shopNameInput);
+    shopDateVal.replaceWith(shopDateInput);
+    shopPrice.replaceWith(shopPriceInput);
+    buttonEdt.replaceWith(btnSaveEdite);
+    buttonDel.replaceWith(btnBackEdite);
 
-  btnSaveEdite.onclick = () => {
-    item.shopName = shopNameInput.value;
-    item.shopDate = shopDateInput.value;
-    item.shopPrice = shopPriceInput.value;
+    btnSaveEdite.onclick = async () => {
+      item.shopName = shopNameInput.value;
+      item.shopDate = shopDateInput.value;
+      item.shopPrice = shopPriceInput.value;
 
-    render();
-  }
+      const resp = await fetch('http://localhost:8000/changeCost', {
+        method: 'PATCH',
+        headers: {
+          'Content-type': 'application/json;charset=utf-8',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          _id: allBuys[index]._id,
+          shopName: shopNameInput.value,
+          shopDate: shopDateInput.value,
+          shopPrice: shopPriceInput.value
+        })
+      });
 
-  btnBackEdite.onclick = () => {
-    render();
-  }
+      let result = await resp.json();
+      allBuys = result.data;
+      render();
+
+    }
+    
+    btnBackEdite.onclick = () => {
+      render();
+    }
+  
+}
+
+btnBack = () => {
+  
 }
 
 onDeleteContainer = async (index) => {
-  delete allBuys[index];
+  const resp = await fetch(`http://localhost:8000/deleteCost?id=${allBuys[index]._id}`, {
+    method: 'DELETE'
+  });
+
+  let result = await resp.json();
+  allBuys = result.data;
   render();
 }
-
