@@ -31,7 +31,7 @@ updateValuePrice = (event) => {
 }
 
 onClickAdd = async () => {
-  if (valueInputShop && valueInputPrice) {
+  if (valueInputShop && valueInputPrice && valueInputPrice > 0) {
     const resp = await fetch('http://localhost:8000/createCost', {
       method: 'POST',
       headers: {
@@ -56,7 +56,7 @@ onClickAdd = async () => {
     render();
 
   } else {
-    alert("Заполните все поля!!!");
+    alert("Заполните все поля и введите трату больше 0");
   }
 }
 
