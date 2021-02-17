@@ -1,6 +1,6 @@
 let allBuys = JSON.parse(localStorage.getItem('costs')) || [];
 let valueInputShop = '';
-let valueInputPrice = 0;
+let valueInputPrice = '';
 let valueNum = 0;
 let inputShop = null;
 let inputPrice = null;
@@ -30,14 +30,8 @@ updateValuePrice = (event) => {
   valueInputPrice = event.target.value;
 }
 
-function sizeCost() {
-  let size = document.getElementById("info-price").value;
-  let textSize = document.getElementById("size");
-  textSize.innerText = `${size} р`;
-}
-
 onClickAdd = async () => {
-  if (valueInputShop) {
+  if (valueInputShop && valueInputPrice) {
     const resp = await fetch('http://localhost:8000/createCost', {
       method: 'POST',
       headers: {
@@ -57,13 +51,21 @@ onClickAdd = async () => {
     inputShop.value = '';
     inputPrice.value = '';
     valueInputShop = '';
+    valueInputPrice = '';
 
     render();
 
   } else {
-    alert("Введите название Магазина!!!");
+    alert("Заполните все поля!!!");
   }
 }
+
+let shopName = null;
+let shopDateVal = null;
+let shopPrice = null;
+let myShopName = null;
+let buttonEdt = null;
+let buttonDel = null;
 
 let render = () => {
   const content = document.getElementById('content-page');
@@ -104,16 +106,16 @@ let render = () => {
 
     const textBlock = document.createElement('div');
     textBlock.className = 'block-text';
-    const shopName = document.createElement('p');
+    shopName = document.createElement('p');
     shopName.className = 'block-text_name';
     shopName.innerText = 'Магазин: ';
-    const myShopName = document.createElement('span');
+    myShopName = document.createElement('span');
     myShopName.innerText = item.shopName;
     shopName.appendChild(myShopName);
     const shopDate = document.createElement('p');
     shopDate.className = 'block-text_date';
     shopDate.innerText = 'Дата: ';
-    const shopDateVal = document.createElement('span');
+    shopDateVal = document.createElement('span');
     let dateText = new Date(Date.parse(item.shopDate));
     shopDateVal.innerText = dateText.toLocaleDateString('ru-RU');
     shopDate.appendChild(shopDateVal);
@@ -123,7 +125,7 @@ let render = () => {
 
     const priceBlock = document.createElement('div');
     priceBlock.className = 'block-price';
-    const shopPrice = document.createElement('p');
+    shopPrice = document.createElement('p');
     shopPrice.innerText = `${item.shopPrice} p`;
     let shopPriceText = document.createElement('p');
     shopPriceText.id = 'sizeEdite';
@@ -132,7 +134,7 @@ let render = () => {
 
     const blockImg = document.createElement('div');
     blockImg.className = 'block-imgs';
-    const buttonEdt = document.createElement('button');
+    buttonEdt = document.createElement('button');
     buttonEdt.id = 'buttoneEdt';
     const img1 = document.createElement('img');
     img1.src = 'img/edit.svg';
@@ -141,15 +143,15 @@ let render = () => {
     blockImg.appendChild(buttonEdt);
     
     buttonEdt.onclick = () => {
-      if(chekEdite === false){
-        onchange(item, index, shopName, shopDateVal, shopPrice, myShopName, buttonEdt, buttonDel);
+      if (chekEdite === false) {
+        onchange(item, index);
         chekEdite = true
       } else {
         render();
       }
     }
 
-    const buttonDel = document.createElement('button');
+    buttonDel = document.createElement('button');
     const img2 = document.createElement('img');
     img2.src = 'img/delete.svg';
     img2.alt = 'edit';
@@ -161,20 +163,20 @@ let render = () => {
     buttonDel.appendChild(img2);
     blockImg.appendChild(buttonDel);
     block.appendChild(blockImg);
-
+    
     content.appendChild(block);
   });
 }
 
-onchange = (item, index, shopName, shopDateVal, shopPrice, myShopName, buttonEdt, buttonDel) => {
+onchange = (item, index) => {
   
-    let shopNameInput = document.createElement(`input`);
-    let shopDateInput = document.createElement(`input`);
-    let shopPriceInput = document.createElement(`input`);
+    const shopNameInput = document.createElement(`input`);
+    const shopDateInput = document.createElement(`input`);
+    const shopPriceInput = document.createElement(`input`);
     const btnSaveEdite = document.createElement('button');
     const btnBackEdite = document.createElement('button');
-    let imgSaveEdite = document.createElement('img');
-    let imgBackEdite = document.createElement('img');
+    const imgSaveEdite = document.createElement('img');
+    const imgBackEdite = document.createElement('img');
 
     imgSaveEdite.src = 'img/done.svg';
     imgSaveEdite.alt = 'edit';
@@ -230,10 +232,6 @@ onchange = (item, index, shopName, shopDateVal, shopPrice, myShopName, buttonEdt
     btnBackEdite.onclick = () => {
       render();
     }
-  
-}
-
-btnBack = () => {
   
 }
 

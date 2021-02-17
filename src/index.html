@@ -26,18 +26,27 @@
       </div>
 
       <div class="content">
-
         <div class="content-info">
           <div class="content-info_main">
-          <div class="content-info_shop">
-            <span>Куда было потрачено</span>
-            <input type="text" id='info-shop' class="content-info_shop-input" maxlength="30">
+
+            <div class="content-info_shop">
+              <span>Куда было потрачено</span>
+              <input type="text" 
+                id='info-shop' 
+                class="content-info_shop-input" 
+                maxlength="30">
+            </div>
+
+            <div class="content-info_shop">
+              <span>Сколько потрачено</span>
+              <input type="number"
+                autocomplete="off"
+                id='info-price'
+                class="content-info_shop-input"
+                maxlength="10">
+            </div>
           </div>
-          <div class="content-info_shop">
-            <span>Сколько потрачено</span>
-            <input type="number" autocomplete="off" id='info-price' class="content-info_shop-input" maxlength="10">
-          </div>
-        </div>
+
           <div class="content-info_add">
             <button type="button"><img src="img/plus.svg" onclick="onClickAdd()"/></button>
           </div>
@@ -45,28 +54,10 @@
         
         <div id="sum"></div>
 
-        <div id="content-page">
-          <!-- <div class="content-page_block">
-            <div class="block-shopNum">
-              <span>1</span>
-              <p>ПОКУПКА</p>
-            </div>
-            <div class="block-text">
-              <p class="block-text_name">Магазин: <span>Мой магаз</span></p>
-              <p class="block-text_date">Дата: <span>12.02.2021</span></p> 
-            </div>
-            <div class="block-price">
-              <p>700р</p>
-            </div>
-            <div class="block-imgs">
-                <button type="button"><img src="img/edit.svg" alt="edit"/></button>
-                <button type="button"><img src="img/delete.svg" alt="delete"/></button>
-            </div>
-          </div> -->
-        </div> 
-      </div>
+        <div id="content-page"></div> 
 
       </div>
+    </div>
   </section>
   <!-- /.main -->
 <script src="script.js"></script>

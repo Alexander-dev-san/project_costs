@@ -9,7 +9,9 @@ const PORT = 8000;
 const apiRoutes = require('./backend/modules/routes/routes');
 
 app.use(cors());
+
 app.use(parser.json());
+
 const uri = 'mongodb+srv://alexander:1488sasha@cluster0.yhbzy.mongodb.net/cost?retryWrites=true&w=majority';
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true});
 
@@ -22,7 +24,6 @@ db.once('open', () => {
 });
 
 app.use('/', apiRoutes);
-
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}...`)
