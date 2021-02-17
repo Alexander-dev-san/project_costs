@@ -141,7 +141,7 @@ let render = () => {
         let result = await resp.json();
         allBuys = result.data;
         render();
-    })
+      });
     }
 
       shopDateVal.ondblclick = () => {
@@ -169,8 +169,8 @@ let render = () => {
           let result = await resp.json();
           allBuys = result.data;
           render();
-        })
-    }
+        });
+      }
 
     const priceBlock = document.createElement('div');
     priceBlock.className = 'block-price';
@@ -206,7 +206,7 @@ let render = () => {
         let result = await resp.json();
         allBuys = result.data;
         render();
-      })
+      });
     }
 
     const blockImg = document.createElement('div');
@@ -221,9 +221,9 @@ let render = () => {
     
     buttonEdt.onclick = () => {
       if (chekEdite === false) {
-        const shopNameInput = document.createElement(`input`);
-        const shopDateInput = document.createElement(`input`);
-        const shopPriceInput = document.createElement(`input`);
+        const shopNameInput = document.createElement('input');
+        const shopDateInput = document.createElement('input');
+        const shopPriceInput = document.createElement('input');
         const btnSaveEdite = document.createElement('button');
         const btnBackEdite = document.createElement('button');
         const imgSaveEdite = document.createElement('img');
@@ -277,7 +277,6 @@ let render = () => {
           let result = await resp.json();
           allBuys = result.data;
           render();
-
         }
         
         btnBackEdite.onclick = () => {
