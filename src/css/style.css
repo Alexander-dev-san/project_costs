@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Caveat'
+  font-family: 'Caveat';
+  pointer-events: unset;
 }
 
 body {
@@ -16,13 +17,12 @@ body {
   left: 50%;
   transform: translate(-50%, 0);
   max-width: 950px;
-  z-index: 10;
 }
 
 .header {
   position: relative;
   width: 100%;
-  min-height: 150px;
+  min-height: 100px;
   background: #fc6e6d;
   border-radius: 50px 50px 0 0;
 }
@@ -38,6 +38,7 @@ body {
 .header-imgs img {
   width: 50px;
   height: 70px;
+  pointer-events: none;
 }
 
 .header-text {
@@ -48,7 +49,7 @@ body {
 }
 
 .header-text span {
-  margin-top: 50px;
+  margin-top: 10px;
   color: #ffffff;
   font-size: 80px;
   font-weight: 700;
@@ -59,7 +60,6 @@ body {
   min-height: 400px;
   background: #fefeff;
   padding: 10px;
-  margin-bottom: 50px;
 }
 
 .content-info {
@@ -189,11 +189,11 @@ input[type="number"]:focus {
 }
 
 #content-page {
-  max-height: 500px;
+  max-height: 420px;
   overflow: scroll;
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 #content-page::-webkit-scrollbar { 
